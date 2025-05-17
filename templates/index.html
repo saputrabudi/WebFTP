@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Beranda{% endblock %}
+
+{% block content %}
+<div class="jumbotron bg-light p-5 rounded">
+    <h1 class="display-4">Selamat Datang di WebFTP! By Saputra Budi</h1>
+    <p class="lead">Aplikasi web sederhana untuk mengelola file melalui FTP.</p>
+    <hr class="my-4">
+    <p>Terhubung ke: <strong>{{ session['ftp_host'] }}</strong> sebagai <strong>{{ session['ftp_username'] }}</strong></p>
+    <a class="btn btn-primary btn-lg" href="{{ url_for('browse', path='/') }}" role="button">
+        <i class="bi bi-folder"></i> Jelajahi File
+    </a>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-body text-center">
+                <i class="bi bi-folder-fill text-primary" style="font-size: 3rem;"></i>
+                <h5 class="card-title mt-3">Jelajahi</h5>
+                <p class="card-text">Jelajahi file dan folder di server FTP Anda dengan antarmuka yang intuitif.</p>
+                <a href="{{ url_for('browse', path='/') }}" class="btn btn-sm btn-outline-primary">Jelajahi</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-body text-center">
+                <i class="bi bi-pencil-square text-primary" style="font-size: 3rem;"></i>
+                <h5 class="card-title mt-3">Edit File</h5>
+                <p class="card-text">Edit file kode sumber langsung dari browser dengan fitur syntax highlighting.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-body text-center">
+                <i class="bi bi-eye text-primary" style="font-size: 3rem;"></i>
+                <h5 class="card-title mt-3">Preview</h5>
+                <p class="card-text">Lihat preview website dan file lainnya langsung dari browser.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

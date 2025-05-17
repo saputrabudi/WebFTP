@@ -1,0 +1,7 @@
+flask==2.0.1
+pyftpdlib==1.5.7
+python-dotenv==0.19.1
+werkzeug==2.0.1
+wtforms==3.0.0
+Flask-WTF==1.0.0
+Pygments==2.10.0

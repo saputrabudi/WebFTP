@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% block title %}Edit: {{ file_name }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/monokai.min.css">
+<style>
+    .CodeMirror {
+        height: calc(100vh - 300px);
+        min-height: 300px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-family: 'Courier New', monospace;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2><i class="bi bi-pencil-square"></i> Edit File</h2>
+    <div>
+        <a href="{{ url_for('browse', path=file_path.rsplit('/', 1)[0] if '/' in file_path else '/') }}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Kembali
+        </a>
+        <a href="{{ url_for('preview_file', path=file_path) }}" class="btn btn-info" target="_blank">
+            <i class="bi bi-eye"></i> Preview
+        </a>
+    </div>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb bg-light p-3 rounded">
+        <li class="breadcrumb-item">
+            <a href="{{ url_for('browse', path='/') }}"><i class="bi bi-house-door"></i> Root</a>
+        </li>
+        
+        {% set path_parts = file_path.split('/') %}
+        {% set cumulative_path = '' %}
+        
+        {% for part in path_parts %}
+            {% if part %}
+                {% set cumulative_path = cumulative_path + '/' + part %}
+                <li class="breadcrumb-item {% if loop.last %}active{% endif %}">
+                    {% if loop.last %}
+                        {{ part }}
+                    {% else %}
+                        <a href="{{ url_for('browse', path=cumulative_path) }}">{{ part }}</a>
+                    {% endif %}
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ol>
+</nav>
+
+<div class="card">
+    <div class="card-header bg-light">
+        <div class="d-flex justify-content-between align-items-center">
+            <span><i class="bi bi-file-earmark-code"></i> {{ file_name }}</span>
+            <span class="badge bg-primary" id="file-type"></span>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <form method="post">
+            <textarea name="content" id="code-editor">{{ content }}</textarea>
+            <div class="p-3">
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-save"></i> Simpan Perubahan
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/css/css.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/htmlmixed/htmlmixed.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/xml/xml.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/python/python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/php/php.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const fileName = "{{ file_name }}";
+        const fileExt = fileName.split('.').pop().toLowerCase();
+        let mode = 'text';
+        let fileType = 'Text';
+        
+        // Set mode dan tipe file berdasarkan ekstensi
+        switch(fileExt) {
+            case 'js':
+                mode = 'javascript';
+                fileType = 'JavaScript';
+                break;
+            case 'html':
+            case 'htm':
+                mode = 'htmlmixed';
+                fileType = 'HTML';
+                break;
+            case 'css':
+                mode = 'css';
+                fileType = 'CSS';
+                break;
+            case 'py':
+                mode = 'python';
+                fileType = 'Python';
+                break;
+            case 'php':
+                mode = 'php';
+                fileType = 'PHP';
+                break;
+            case 'xml':
+            case 'svg':
+                mode = 'xml';
+                fileType = 'XML';
+                break;
+            default:
+                mode = 'text';
+                fileType = 'Text';
+        }
+        
+        // Tampilkan tipe file
+        document.getElementById('file-type').textContent = fileType;
+        
+        // Inisialisasi editor
+        const editor = CodeMirror.fromTextArea(document.getElementById('code-editor'), {
+            lineNumbers: true,
+            mode: mode,
+            theme: 'monokai',
+            indentUnit: 4,
+            tabSize: 4,
+            lineWrapping: true,
+            autoCloseBrackets: true,
+            matchBrackets: true,
+            extraKeys: {"Ctrl-Space": "autocomplete"}
+        });
+    });
+</script>
+{% endblock %} 

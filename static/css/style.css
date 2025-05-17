@@ -1,0 +1,123 @@
+/* Custom Styles for WebFTP */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #f8f9fa;
+}
+
+.footer {
+    margin-top: auto;
+}
+
+.breadcrumb {
+    margin-bottom: 1rem;
+}
+
+.card {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    margin-bottom: 1.5rem;
+}
+
+.table th, .table td {
+    vertical-align: middle;
+}
+
+/* Icon styles */
+.bi {
+    margin-right: 0.25rem;
+}
+
+/* File browser styles */
+.directory-item, .file-item {
+    transition: background-color 0.2s;
+}
+
+.directory-item:hover, .file-item:hover {
+    background-color: rgba(0, 123, 255, 0.05);
+}
+
+/* Button groups in file browser */
+.btn-group-sm .btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+}
+
+/* Preview container */
+.preview-container {
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    overflow: hidden;
+}
+
+/* Adjust navbar for mobile */
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.1rem;
+    }
+    
+    .btn {
+        padding: 0.375rem 0.5rem;
+    }
+    
+    .table th:not(:first-child):not(:last-child),
+    .table td:not(:first-child):not(:last-child) {
+        display: none;
+    }
+}
+
+/* Custom background for navbar */
+.navbar-dark.bg-primary {
+    background-color: #2c3e50 !important;
+}
+
+/* Custom styling for buttons */
+.btn-primary {
+    background-color: #3498db;
+    border-color: #3498db;
+}
+
+.btn-success {
+    background-color: #2ecc71;
+    border-color: #2ecc71;
+}
+
+.btn-warning {
+    background-color: #f39c12;
+    border-color: #f39c12;
+}
+
+.btn-info {
+    background-color: #3498db;
+    border-color: #3498db;
+}
+
+.btn-danger {
+    background-color: #e74c3c;
+    border-color: #e74c3c;
+}
+
+/* Custom alert styling */
+.alert-success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+    color: #856404;
+}
+
+.alert-info {
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+    color: #0c5460;
+} 

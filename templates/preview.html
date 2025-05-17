@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Preview: {{ file_path.split('/')[-1] }}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2><i class="bi bi-eye"></i> Preview</h2>
+    <div>
+        <a href="{{ url_for('browse', path=file_path.rsplit('/', 1)[0] if '/' in file_path else '/') }}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Kembali
+        </a>
+        <a href="{{ url_for('edit_file', path=file_path) }}" class="btn btn-warning">
+            <i class="bi bi-pencil"></i> Edit
+        </a>
+    </div>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb bg-light p-3 rounded">
+        <li class="breadcrumb-item">
+            <a href="{{ url_for('browse', path='/') }}"><i class="bi bi-house-door"></i> Root</a>
+        </li>
+        
+        {% set path_parts = file_path.split('/') %}
+        {% set cumulative_path = '' %}
+        
+        {% for part in path_parts %}
+            {% if part %}
+                {% set cumulative_path = cumulative_path + '/' + part %}
+                <li class="breadcrumb-item {% if loop.last %}active{% endif %}">
+                    {% if loop.last %}
+                        {{ part }}
+                    {% else %}
+                        <a href="{{ url_for('browse', path=cumulative_path) }}">{{ part }}</a>
+                    {% endif %}
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ol>
+</nav>
+
+<div class="card">
+    <div class="card-header bg-light">
+        <div class="d-flex justify-content-between align-items-center">
+            <span><i class="bi bi-filetype-html"></i> {{ file_path.split('/')[-1] }}</span>
+            <a href="/{{ local_path }}" target="_blank" class="btn btn-sm btn-primary">
+                <i class="bi bi-box-arrow-up-right"></i> Buka di Tab Baru
+            </a>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <div class="ratio ratio-16x9" style="min-height: 600px;">
+            <iframe src="/{{ local_path }}" title="Preview" allowfullscreen></iframe>
+        </div>
+    </div>
+</div>
+{% endblock %} 
